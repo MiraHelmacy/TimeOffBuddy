@@ -50,12 +50,15 @@ public final class OptionsBuilder implements IOptionsBuilder{
   }
 
   public OptionsBuilder standardOption(){
+    resetCurrentOption();
     currentOption.put(Option.typeKey(), OptionType.STANDARD_OPTION.type());
     return this;
   }
 
   public OptionsBuilder toggleOption(){
+    resetCurrentOption();
     currentOption.put(Option.typeKey(), OptionType.TOGGLE_OPTION.type());
+    currentOption.put(Option.defaultValueKey(), "FALSE");
     return this;
   }
 
@@ -97,6 +100,10 @@ public final class OptionsBuilder implements IOptionsBuilder{
 
   @Override
   public OptionsBuilder defaultValue(String defaultValue) {
+    if (OptionType.TOGGLE_OPTION.type().equals(currentOption.get(Option.typeKey()))){
+      System.out.println("Warning! Attempted to set default value for toggle option. Ignoring");
+      return this;
+    }
     currentOption.put(Option.defaultValueKey(), defaultValue);
     return this;
   }

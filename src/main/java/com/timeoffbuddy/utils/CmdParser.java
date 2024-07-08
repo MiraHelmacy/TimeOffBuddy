@@ -68,20 +68,12 @@ public class CmdParser implements Parser{
     
       String key = option.key();//get the option key
       
-      OptionType type = option.type();//get the option type
-
-      //if the option is a toggle option
-      if (type.equals(OptionType.TOGGLE_OPTION)){
-        parameters.put(key, "FALSE");//set the default value to false
-      }
-      
       //get the default value of any option
       String defaultValue = option.defaultValue();
 
       //if the default value is not null
       if (defaultValue instanceof String){
         //add default value and key to parameters
-        //overrides the value for the toggle option if one is specified.
         parameters.put(key, defaultValue);
       }
     }
@@ -110,7 +102,7 @@ public class CmdParser implements Parser{
       }
     }catch (Exception e){
       e.printStackTrace();
-      throw new InvalidParameterException("Failed to Parse Args");
+      throw new InvalidParameterException("Failed to Parse Args! " + e.getMessage());
     }
     List<IOption> requiredOptions = options.stream()
                                            .filter(IOption::required)

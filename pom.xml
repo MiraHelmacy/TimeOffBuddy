@@ -6,7 +6,7 @@
 
     <groupId>com.timeoffbuddy</groupId>
     <artifactId>timeoffbuddy</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <name>Time Off Buddy</name>
     <description>A tool used to determine how many pay periods there are before attaining a certain amount of time off.</description>
     <licenses>
