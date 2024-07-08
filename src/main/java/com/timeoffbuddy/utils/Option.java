@@ -36,13 +36,14 @@ public class Option implements IOption{
   final boolean required;
   final String defaultValue;
   final OptionType type;
+  final String description;
 
   static final IOption optionFactory(Map<String, String> optionsMap){
     return new Option(optionsMap);
   }
 
   static final Map<String, String> optionTemplateMap(){
-    List<String> allKeys = Arrays.asList(new String[]{shortOptionKey(), longOptionKey(), keyKey(), requiredKey(), defaultValueKey(), typeKey()});
+    List<String> allKeys = allKeys();
     Map<String, String> template = new HashMap<>();
     for (String key: allKeys){
       template.putIfAbsent(key, null);
@@ -61,11 +62,12 @@ public class Option implements IOption{
     defaultValue = optionsMap.get(defaultValueKey());
     required = Boolean.parseBoolean(optionsMap.get(requiredKey()));
     type = OptionType.whichType(optionsMap.get(typeKey()));
+    description = optionsMap.get(descriptionKey());
     if (invalidOption()) throw new InvalidParameterException("Option is invalid");
   }
 
   static final boolean containsAllKeys(Map<String, String> optionsMap){
-    List<String> allKeys = Arrays.asList(new String[]{shortOptionKey(), longOptionKey(), keyKey(), requiredKey(), defaultValueKey(), typeKey()});
+    List<String> allKeys = allKeys();
     boolean containsAllKeys = true;
     
     for (String key: allKeys){
@@ -75,6 +77,12 @@ public class Option implements IOption{
     }
     return containsAllKeys;
   }
+
+  static final List<String> allKeys(){
+    return Arrays.asList(new String[]{shortOptionKey(), longOptionKey(), keyKey(), requiredKey(), defaultValueKey(), typeKey(), descriptionKey()});
+  }
+
+
 
   public static final String shortOptionKey(){
     return "shortOption";
@@ -98,6 +106,10 @@ public class Option implements IOption{
 
   public static final String typeKey(){
     return "type";
+  }
+
+  public static final String descriptionKey(){
+    return "description";
   }
 
   @Override
@@ -128,5 +140,10 @@ public class Option implements IOption{
   @Override
   public OptionType type() {
     return type;    
+  }
+
+  @Override
+  public String description() {
+    return description;
   }
 }

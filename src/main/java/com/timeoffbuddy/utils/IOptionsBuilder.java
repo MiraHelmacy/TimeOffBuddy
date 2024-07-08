@@ -34,6 +34,7 @@ public interface IOptionsBuilder {
   IOptionsBuilder notRequired();
   IOptionsBuilder defaultValue(String defaultValue);
   IOptionsBuilder confirmOption();
+  IOptionsBuilder description(String description);
   List<IOption> build();
   
   

@@ -137,5 +137,9 @@ public final class OptionsBuilder implements IOptionsBuilder{
     return options;
   }
 
-  
+  @Override
+  public OptionsBuilder description(String description) {
+    currentOption.put(Option.descriptionKey(), description);
+    return this;
+  }
 }

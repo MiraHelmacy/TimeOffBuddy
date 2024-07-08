@@ -24,7 +24,6 @@ SOFTWARE.
 package com.timeoffbuddy.utils;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -50,8 +49,6 @@ public class CmdParser implements Parser{
     clearParameters();
     List<IOption> options = optionsBuilder.build();//list of options built by options builder
     HashMap<String, IOption> optionStringToOption = new HashMap<>();//map of short and long option to Option Object to make lookup when parsing faster
-
-
     
     for (IOption option: options){
       //get short option and set to empty string if null
@@ -84,6 +81,7 @@ public class CmdParser implements Parser{
       while(argsIterator.hasNext()){
         String currentArg = argsIterator.next();
         IOption currentOption = optionStringToOption.get(currentArg);
+        if (!(currentOption instanceof IOption)) throw new Exception("Unknown Option: " + currentArg);
         OptionType currentOptionType = currentOption.type();
         String key = currentOption.key();
         String data;
@@ -101,41 +99,10 @@ public class CmdParser implements Parser{
         parameters.put(key, data);
       }
     }catch (Exception e){
-      e.printStackTrace();
-      throw new InvalidParameterException("Failed to Parse Args! " + e.getMessage());
+      throw new InvalidParameterException(e.getMessage());
     }
-    List<IOption> requiredOptions = options.stream()
-                                           .filter(IOption::required)
-                                           .toList();
     
-
-    List<String> missingParameters = new ArrayList<>();
-    //check required options
-    for (IOption option: requiredOptions){
-      String key = option.key();
-      if(!(parameters.get(key)instanceof String)){
-        //required option is null
-        if (option.type().equals(OptionType.TOGGLE_OPTION)){
-          parameters.put(key, "FALSE");
-          continue;
-        }
-        String shortOption = option.shortOption();
-        String longOption = option.longOption();
-
-        missingParameters.add("Missing Required Parameter: " + shortOption + " or " + longOption);
-      }
-    }
-
-    if (!missingParameters.isEmpty()){
-      StringBuffer sb = new StringBuffer("Failed to Parse Args:\n");
-      for(String missingParameter: missingParameters){
-        sb = sb.append(missingParameter)
-               .append("\n");
-      }
-      throw new InvalidParameterException(sb.toString());
-    }
   }
-
   @Override
   public String get(String key) {
     return parameters.get(key);

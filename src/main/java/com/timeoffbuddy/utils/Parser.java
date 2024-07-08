@@ -28,4 +28,40 @@ import java.util.List;
 public interface Parser {
   void parse(List<String> args, IOptionsBuilder optionsBuilder);
   String get(String key);
+  default String help(String applicationName, IOptionsBuilder optionsBuilder){
+    
+    StringBuffer sb = new StringBuffer(applicationName + ":\n").append("Usage:\n");
+    for(IOption option: optionsBuilder.build()){
+      String key = option.key();
+      String shortOption = option.shortOption();
+      String longOption = option.longOption();
+      boolean required = option.required();
+      String description = option.description();
+      OptionType type = option.type();
+      String defaultValue = option.defaultValue();
+      sb.append("\t")
+        .append(key)
+        .append(" ")
+        .append(description)
+        .append(" ");
+      
+      if (required){
+        sb.append(shortOption instanceof String ? (shortOption + "|") : "")
+          .append(longOption)
+          .append(" ");
+      }else {
+        sb.append("[")
+          .append(shortOption instanceof String ? (shortOption + "|") : "")
+          .append(longOption)
+          .append("] ");
+      }
+      if (OptionType.STANDARD_OPTION.type().toString().equals(type.type().toString())){
+        sb.append("<" + key + "> ");
+      }
+      sb.append("Default: ")
+        .append(defaultValue)
+        .append("\n");
+    }
+    return sb.toString();
+  }
 }

@@ -30,6 +30,7 @@ public interface IOption {
   boolean required();
   String defaultValue();
   OptionType type();
+  String description();
   
   static boolean optionsMatch(IOption opt1, IOption opt2){
     String opt1Key = opt1.key();
