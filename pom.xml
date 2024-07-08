@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.timeoffbuddy</groupId>
+    <artifactId>timeoffbuddy</artifactId>
+    <version>1.0.0</version>
+    <name>Time Off Buddy</name>
+    <description>A tool used to determine how many pay periods there are before attaining a certain amount of time off.</description>
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <distribution>manual</distribution>
+            <comments>See LICENSE for further details. If LICENSE Is Not Available, License on source code itself will apply.</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Alexander Douglas Helmacy</name>
+            <email>alexhelmacy@gmail.com</email>
+            <timezone>EST</timezone>
+        </developer>
+    </developers>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+    <build>
+        <defaultGoal>jar</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.timeoffbuddy.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
