@@ -24,6 +24,7 @@ SOFTWARE.
 package com.timeoffbuddy.utils;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -115,6 +116,8 @@ public class CmdParser implements Parser{
                                            .filter(IOption::required)
                                            .toList();
     
+
+    List<String> missingParameters = new ArrayList<>();
     //check required options
     for (IOption option: requiredOptions){
       String key = option.key();
@@ -127,68 +130,18 @@ public class CmdParser implements Parser{
         String shortOption = option.shortOption();
         String longOption = option.longOption();
 
-        throw new InvalidParameterException("Missing Required Parameter: " + shortOption + " or " + longOption);
+        missingParameters.add("Missing Required Parameter: " + shortOption + " or " + longOption);
       }
     }
-    /* HashMap<String, IOption> optionStringToOption = new HashMap<>();
-    List<IOption> options = optionsBuilder.build();
-    for (IOption option: options){
-      String shortOption = option.shortOption();
-      shortOption = shortOption instanceof String ? shortOption : "";
-      
-      String longOption = option.longOption();
-      longOption = longOption instanceof String ? longOption : "";
 
-     
+    if (!missingParameters.isEmpty()){
+      StringBuffer sb = new StringBuffer("Failed to Parse Args:\n");
+      for(String missingParameter: missingParameters){
+        sb = sb.append(missingParameter)
+               .append("\n");
+      }
+      throw new InvalidParameterException(sb.toString());
     }
-
-    try{
-      Iterator<String> argsIterator = args.iterator();
-      while(argsIterator.hasNext()){
-        String currentArg = argsIterator.next();
-        IOption currentOption = optionStringToOption.get(currentArg);
-        OptionType currentOptionType = currentOption.type();
-        String key = currentOption.key();
-        String data;
-        switch (currentOptionType){
-          case STANDARD_OPTION:
-            String rawData = argsIterator.next();
-            data = rawData;
-            break;
-          case TOGGLE_OPTION:
-            data = "TRUE";
-            break;
-          default:
-            throw new UnsupportedOperationException("Option Type Not Supported");
-        }
-        parameters.putIfAbsent(key, data);
-      }
-    }catch (Exception e){
-      e.printStackTrace();
-      throw new InvalidParameterException("Failed to Parse Args");
-    }
-
-    for (IOption option: options){
-      if (option.type() == OptionType.TOGGLE_OPTION){
-        String key = option.key();
-        parameters.putIfAbsent(key, "FALSE");
-      }
-
-      if (option.required()){
-        String shortOption = option.shortOption();
-        String longOption = option.longOption();
-        String key = option.key();
-
-        if (parameters.get(key) == null){
-          String defaultValue = option.defaultValue();
-          if (defaultValue instanceof String) {
-            parameters.put(key, defaultValue);
-          }else{
-            throw new InvalidParameterException("Missing Required Parameter: " + shortOption + " or " + longOption);
-          }
-        }
-      }
-    } */
   }
 
   @Override
