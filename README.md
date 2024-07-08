@@ -9,7 +9,7 @@ mvn package
 
 ### Usage
 ```
-java -jar target/timeoffbuddy-1.0.1.jar -eh|--earned-hours <earned hours> -em|--earned-minutes <earned minutes> [-ch|--current-hours <current hours>] [-cm|--current-minutes <current minutes>] [-t|--target <target hours>]
+java -jar target/timeoffbuddy.jar -eh|--earned-hours <earned hours> -em|--earned-minutes <earned minutes> [-ch|--current-hours <current hours>] [-cm|--current-minutes <current minutes>] [-t|--target <target hours>]
 ```
 
 ## Parameters
@@ -33,11 +33,11 @@ Earned Hours: 4
 Earned Minutes: 37
 
 ```
-java -jar target/timeoffbuddy-1.0.1.jar -eh 4 -em 37 -ch 0 -cm 0 -t 40
+java -jar target/timeoffbuddy.jar -eh 4 -em 37 -ch 0 -cm 0 -t 40
 ```
 
 Since Current Hours, Current Minutes and Target are all the defaults, this can be simplified to 
 
 ```
-java -jar target/timeoffbuddy-1.0.1.jar -eh 4 -em 37
+java -jar target/timeoffbuddy.jar -eh 4 -em 37
 ```
