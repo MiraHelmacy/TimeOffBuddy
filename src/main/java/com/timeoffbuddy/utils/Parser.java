@@ -47,20 +47,22 @@ public interface Parser {
       
       if (required){
         sb.append(shortOption instanceof String ? (shortOption + "|") : "")
-          .append(longOption)
+          .append(longOption instanceof String ? longOption : "")
           .append(" ");
       }else {
         sb.append("[")
           .append(shortOption instanceof String ? (shortOption + "|") : "")
-          .append(longOption)
+          .append(longOption instanceof String ? longOption : "")
           .append("] ");
       }
       if (OptionType.STANDARD_OPTION.type().toString().equals(type.type().toString())){
         sb.append("<" + key + "> ");
       }
+      if (defaultValue instanceof String)
       sb.append("Default: ")
-        .append(defaultValue)
-        .append("\n");
+        .append(defaultValue);
+
+      sb.append("\n");
     }
     return sb.toString();
   }
